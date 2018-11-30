@@ -1,0 +1,143 @@
+{% extends 'frontend/base.html' %}
+
+
+{% block content %}
+		
+		{% csrf_token %}
+
+		<article class="media content-section" style="border:none">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ data.author.username }}</a>
+              <small class="text-muted">{{ data.posted_date|date:'M Y, D h:i A' }}</small>
+
+              <span style="float: right">
+			       
+             <input type="hidden" id='user' value='{{ request.user.id }}'>
+
+			  {% if likes %}
+				  {% ifequal likes.like_status 1 %}
+					 <i class="fa fa-thumbs-up cursor" aria-hidden="true" 
+	              		onclick="update_data('{{ data.id }}','True','likes_dislikes')">
+	              	</i>
+	              	  &nbsp
+	              	 <i class="fa fa-thumbs-o-down cursor" aria-hidden="true" onclick="update_data('{{ data.id }}','False','likes_dislikes')">
+	              	</i>
+	              {% else %}
+	              	<i class="fa fa-thumbs-o-up cursor" aria-hidden="true" 
+	              		onclick="update_data('{{ data.id }}','True','likes_dislikes')">
+	              	</i>	
+	              		&nbsp
+	              	 <i class="fa fa-thumbs-down cursor" aria-hidden="true" onclick="update_data('{{ data.id }}','False','likes_dislikes')">
+	              	</i>
+	              {% endifequal %}
+
+			  {% else %}
+              	<i class="fa fa-thumbs-o-up cursor" aria-hidden="true" 
+              		onclick="update_data('{{ data.id }}','True','likes_dislikes')">
+              	</i>
+              		&nbsp
+              	<i class="fa fa-thumbs-o-down cursor" aria-hidden="true" onclick="update_data('{{ data.id }}','False','likes_dislikes')">
+              	</i> 
+			  {% endif %}
+
+				&nbsp
+
+              	<i class="fa fa-share-alt cursor" aria-hidden="true" ></i>
+
+              </span>
+
+            </div>
+            <h2><a class="article-title" href="#">{{ data.title }}</a></h2>
+            <p class="article-content">{{ data.data }}</p>
+           
+          </div>
+		</article>
+
+{% endblock content %}
+
+{% block side %}
+
+
+
+<style type="text/css">
+.cursor
+{
+	cursor: pointer;
+}
+</style>
+ 
+        <div class="col-md-3">
+          <div class="content-section">
+            <h3 class='text-right'>Author</h3>
+            <span style="display: inline-block;">
+				<img src="{{ author.image.url  }}" width="100px" height="100px">
+				<h3>{{ author.user.username }}</h3>
+				<p><i class="fa fa-heart-o cursor" aria-hidden="true" onclick="update_data('{{ data.author.id }}',' ','author_favorites')"></i></p>
+            </span>
+          </div>
+        </div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
+
+<script>
+
+function update_data(id,val,table)
+{
+	var data = new FormData();
+
+	var csrfmiddlewaretoken =  $("input[name='csrfmiddlewaretoken']").val();
+
+	data.append('csrfmiddlewaretoken',csrfmiddlewaretoken);
+	data.append('value',val);
+	data.append('add_id',id);
+	data.append('table',table);
+
+  var flag = $('#user').val();
+
+  if(flag!='None')
+  {
+        $.ajax({                
+                 url         : '{% url "frontend:likes_dislikes"  %}',
+                 type        : "POST",
+                 data        : data,    
+                // mimeType    : "multipart/form-data",
+                //dataType    : 'json',
+                 contentType : false,
+                 cache       : false,
+                 processData : false,
+                 error       : function(request,response)
+                              {
+                                console.log(request);
+                              },                  
+                success      : function(data)
+                              {
+                              	//alert(data);
+                                  if (data) 
+                                  {
+                                     //swal("Updated like status !", "Succesfully", "success");
+                                     //setTimeout(function(){ window.location.href = '{% url "frontend:user_profile" %}'; }, 3000);
+                                     location.reload();
+                                    }
+                                    else
+                                    {
+                                     swal("Failed !",'' ,"error");
+                                    }
+                              }
+                });
+  }
+  else
+  {
+    swal("Please login first!",'' ,"error");
+  }
+
+}
+</script>
+
+
+
+{% endblock side %}
+
+

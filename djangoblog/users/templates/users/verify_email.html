@@ -1,0 +1,14 @@
+{% extends 'users/base.html' %}
+
+{% load crispy_forms_tags  %}
+
+{% block content %}
+
+
+	Email Verification/Password Change For User -- {{ user }}
+	<p>Please Click The Below Link</p>,
+	http://{{ domain }}{% url  path  uidb64=uid token=token %}"
+
+
+
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'frontend/base.html' %}
+
+
+{% block content %}
+
+
+{% for post in posts %}
+
+		<article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.author.username }}</a>
+              <small class="text-muted">{{ post.posted_date|date:'M Y, D h:i A' }}</small>
+
+               <span style="float: right">
+                  <i class="fa fa-thumbs-o-up cursor" aria-hidden="true"> {{ post.likes }}</i>
+                    &nbsp
+                   <i class="fa fa-thumbs-o-down cursor" aria-hidden="true"> {{ post.dislikes }}</i>
+               </span>    
+
+            </div>
+            <h2><a class="article-title" href="{% url 'frontend:add_details' post.id %}">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.data|slice:"0:200" }}................</p>
+            <p class="text-right"><a class="article-title" href="{% url 'frontend:add_details' post.id %}">Readmore</a></p>
+          </div>
+		</article>
+		<hr>
+
+{% endfor %}
+
+{% endblock content %}
