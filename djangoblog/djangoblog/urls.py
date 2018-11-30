@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from django.contrib.auth     import views as authviews
 import os
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^blog/',include('frontend.urls', namespace='frontend')),
@@ -29,6 +30,7 @@ urlpatterns = [
     url(r'^dashboard/',include('dashboard.urls', namespace='dashboard')),
     url(r'^users/',include('users.urls')),
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
