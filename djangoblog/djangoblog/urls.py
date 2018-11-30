@@ -22,7 +22,6 @@ from django.conf.urls.static import static
 from django.contrib.auth     import views as authviews
 import os
 
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^blog/',include('frontend.urls', namespace='frontend')),
