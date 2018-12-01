@@ -153,9 +153,8 @@ def likes_dislikes(request):
 		return HttpResponse(obj.id)
 	else:
 		author_id = request.POST.get('add_id')
-
 		obj = author_favorites()
-
+		
 		obj.user_id   = user_id
 		obj.author_id = author_id
 		obj.save()
