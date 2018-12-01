@@ -9,11 +9,11 @@ from django.db.models import Q
 
 # Model Constants
 contants = {
-				'blogdata' 	     : blogdata,
-				'user_profile'   : User_profile,  
-				'user'		     : User,
-				'likes_dislikes' : Likes_dislikes,
-				'author_favorites' : author_favorites  
+		'blogdata' 	     : blogdata,
+		'user_profile'   : User_profile,  
+		'user'		     : User,
+		'likes_dislikes' : Likes_dislikes,
+		'author_favorites' : author_favorites  
             } 
 
 
